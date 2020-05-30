@@ -15,7 +15,7 @@ app.use('/api/stuff', (req, res, next) => {
       _id: 'oeihfzeoi',
       title: 'My first thing',
       description: 'All of the info about my first thing',
-      imageUrl: '',
+      imageUrl: 'http://interserver.oss-us-east-1.aliyuncs.com/images/f6bcbc7232a9e154d8dbfd2ac6444686322.jpg?x-oss-process=image/resize,m_fill,w_690,h_797,limit_0/auto-orient,1/quality,q_90',
       price: 4900,
       userId: 'qsomihvqios',
     },
@@ -23,7 +23,7 @@ app.use('/api/stuff', (req, res, next) => {
       _id: 'oeihfzeomoihi',
       title: 'My second thing',
       description: 'All of the info about my second thing',
-      imageUrl: '',
+      imageUrl: 'http://interserver.oss-us-east-1.aliyuncs.com/images/f6bcbc7232a9e154d8dbfd2ac6444686322.jpg?x-oss-process=image/resize,m_fill,w_690,h_797,limit_0/auto-orient,1/quality,q_90',
       price: 2900,
       userId: 'qsomihvqios',
     }
