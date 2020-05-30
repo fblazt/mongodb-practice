@@ -1,6 +1,7 @@
 require('dotenv').config()
 const express = require('express')
 const mongoose = require('mongoose')
+const Thing = require('./models/thing')
 
 const app = express()
 
@@ -23,36 +24,62 @@ app.use((req, res, next) => {
 app.use(express.json())
 
 app.post('/api/stuff', (req, res, next) => {
-  console.log(req.body)
-  res
-    .status(201)
-    .json({
-      message: 'Your thing created successfully!'
+  const thing = new Thing ({
+    title: req.body.title,
+    description: req.body.description,
+    imageUrl: req.body.imageUrl,
+    userId: req.body.userId,
+    price: req.body.price,
+  })
+  thing.save()
+    .then(() => {
+      res
+        .status(201)
+        .json({
+          message: 'Post saved successfully!'
+        })
+    })
+    .catch((error) => {
+      res
+        .status(400)
+        .json({
+          error: error
+        })
+    })
+})
+
+app.use('/api/stuff/:id', (req, res, next) => {
+  Thing.findOne({
+    _id: req.params.id
+  })
+    .then((thing) => {
+      res
+        .status(200)
+        .json(thing)
+    })
+    .catch((error) => {
+      res
+        .status(400)
+        .json({
+          error: error
+        })
     })
 })
 
 app.use('/api/stuff', (req, res, next) => {
-  const stuff = [
-    {
-      _id: 'oeihfzeoi',
-      title: 'My first thing',
-      description: 'All of the info about my first thing',
-      imageUrl: 'http://interserver.oss-us-east-1.aliyuncs.com/images/f6bcbc7232a9e154d8dbfd2ac6444686322.jpg?x-oss-process=image/resize,m_fill,w_690,h_797,limit_0/auto-orient,1/quality,q_90',
-      price: 4900,
-      userId: 'qsomihvqios',
-    },
-    {
-      _id: 'oeihfzeomoihi',
-      title: 'My second thing',
-      description: 'All of the info about my second thing',
-      imageUrl: 'http://interserver.oss-us-east-1.aliyuncs.com/images/f6bcbc7232a9e154d8dbfd2ac6444686322.jpg?x-oss-process=image/resize,m_fill,w_690,h_797,limit_0/auto-orient,1/quality,q_90',
-      price: 2900,
-      userId: 'qsomihvqios',
-    }
-  ]
-  res
-    .status(200)
-    .json(stuff)
+  Thing.find()
+    .then((things) => {
+      res
+        .status(200)
+        .json(things)
+    })
+    .catch((error) => {
+      res
+        .status(400)
+        .json({
+          error: error
+        })
+    })
 })
 
 module.exports = app
