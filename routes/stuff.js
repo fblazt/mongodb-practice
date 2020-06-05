@@ -1,12 +1,14 @@
 const express = require('express')
 const router = express.Router()
 
+const auth = require('../middleware/auth')
+
 const stuffController = require('../controller/stuff')
 
-router.get('/', stuffController.getThings)
-router.post('/', stuffController.createThing)
-router.get('/:id', stuffController.getOneThing)
-router.put('/:id', stuffController.modifyThing)
-router.delete('/:id', stuffController.deleteThing)
+router.get('/', auth, stuffController.getThings)
+router.post('/', auth, stuffController.createThing)
+router.get('/:id', auth, stuffController.getOneThing)
+router.put('/:id', auth, stuffController.modifyThing)
+router.delete('/:id', auth, stuffController.deleteThing)
 
 module.exports = router
