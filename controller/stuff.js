@@ -62,14 +62,27 @@ exports.getOneThing = (req, res, next) => {
 }
 
 exports.modifyThing = (req, res, next) => {
-  const thing = new Thing({
-    _id: req.params.id,
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    price: req.body.price,
-    userId: req.body.userId 
-  })
+  let thing = new Thing({ _id: req.body_id })
+  if (req.file) {
+    req.body.thing = JSON.parse(req.body.thing)
+    const url = req.protocol + '://' + req.get('host')
+    thing = {
+      title: req.body.thing.title,
+      description: req.body.thing.description,
+      imageUrl: url + '/images/' + req.file.filename,
+      userId: req.body.thing.userId,
+      price: req.body.thing.price,
+    }
+  } else {
+    thing = {
+      _id: req.params.id,
+      title: req.body.title,
+      description: req.body.description,
+      imageUrl: req.body.imageUrl,
+      price: req.body.price,
+      userId: req.body.userId 
+    }
+  }
   Thing.updateOne({_id: req.params.id}, thing)
     .then(() => {
       res
