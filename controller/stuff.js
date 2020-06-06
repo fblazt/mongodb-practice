@@ -17,12 +17,14 @@ exports.getThings = (req, res, next) => {
 }
 
 exports.createThing = (req, res, next) => {
+  req.body.thing = JSON.parse(req.body.thing)
+  const url = req.protocol + '://' + req.get('host')
   const thing = new Thing ({
-    title: req.body.title,
-    description: req.body.description,
-    imageUrl: req.body.imageUrl,
-    userId: req.body.userId,
-    price: req.body.price,
+    title: req.body.thing.title,
+    description: req.body.thing.description,
+    imageUrl: url + '/images/' + req.file.filename,
+    userId: req.body.thing.userId,
+    price: req.body.thing.price,
   })
   thing.save()
     .then(() => {
